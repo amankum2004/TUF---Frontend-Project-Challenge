@@ -31,7 +31,7 @@ export default function HeroImage({ currentMonth }: HeroImageProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <div className="relative w-full rounded-xl overflow-hidden shadow-md bg-stone-100">
+    <div className="relative w-full rounded-2xl overflow-hidden shadow-md bg-stone-100 border border-stone-200/70">
       <div className="relative aspect-[2/1] md:aspect-[3/1]">
         {!imageLoaded && (
           <div className="absolute inset-0 flex items-center justify-center bg-stone-200 animate-pulse">
@@ -51,7 +51,7 @@ export default function HeroImage({ currentMonth }: HeroImageProps) {
         
         {/* Month overlay text */}
         <div className="absolute bottom-4 left-4 right-4">
-          <p className="text-white text-sm md:text-base font-medium drop-shadow-md">
+          <p className="text-white text-sm md:text-base font-semibold tracking-wide drop-shadow-md">
             {theme} • {format(currentMonth, 'MMMM')}
           </p>
         </div>

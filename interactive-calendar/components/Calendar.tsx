@@ -84,9 +84,12 @@ export default function Calendar({ currentMonth, selectedRange, onRangeChange }:
     <div className="w-full overflow-x-auto">
       <div className="min-w-[280px]">
         {/* Weekday headers */}
-        <div className="calendar-grid bg-stone-200">
+        <div className="calendar-grid bg-amber-100/60">
           {weekDays.map(day => (
-            <div key={day} className="p-2 text-center text-sm font-semibold text-stone-600 bg-stone-100">
+            <div
+              key={day}
+              className="p-2 text-center text-[0.7rem] md:text-xs font-semibold uppercase tracking-[0.2em] text-stone-600 bg-amber-50/80"
+            >
               {day}
             </div>
           ))}
