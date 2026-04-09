@@ -1,5 +1,3 @@
-# README.md
-
 # Interactive Wall Calendar
 
 A beautifully crafted, fully responsive interactive calendar component built with Next.js, React, and TypeScript. This component emulates a physical wall calendar with a seasonal hero image, intuitive date range selection, and integrated notes functionality.
@@ -26,7 +24,7 @@ A beautifully crafted, fully responsive interactive calendar component built wit
 
 ## 🚀 Live Demo
 
-[View Live Demo](https://your-deployed-url.vercel.app)
+[View Live Demo](https://tuf-frontend-project-challenge.vercel.app/)
 
 ## 📦 Tech Stack
 
