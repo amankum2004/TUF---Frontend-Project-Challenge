@@ -1,11 +1,12 @@
 // app/page.tsx
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Calendar from '@/components/Calendar';
 import HeroImage from '@/components/HeroImage';
 import NotesSection from '@/components/NotesSection';
 import { DateRangeProvider } from '@/hooks/useDateRange'; // This now points to .tsx file
+import type { PlannerTask } from '@/lib/planner';
 
 export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -13,10 +14,37 @@ export default function Home() {
     start: Date | null;
     end: Date | null;
   }>({ start: null, end: null });
+  const [tasks, setTasks] = useState<PlannerTask[]>([]);
   const [notes, setNotes] = useState(() => {
     if (typeof window === 'undefined') return '';
     return localStorage.getItem('calendar-notes-monthly') ?? '';
   });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const saved = localStorage.getItem('calendar-tasks');
+    if (saved) {
+      try {
+        setTasks(JSON.parse(saved));
+      } catch {
+        setTasks([]);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('calendar-tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+  const handleJumpToToday = () => {
+    const today = new Date();
+    setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1));
+  };
+
+  const handleClearRange = () => {
+    setSelectedRange({ start: null, end: null });
+  };
 
   return (
     <DateRangeProvider>
@@ -71,9 +99,26 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                       </svg>
                     </button>
-                    <h2 className="text-2xl md:text-3xl font-display font-semibold text-stone-800 tracking-wide">
-                      {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
-                    </h2>
+                    <div className="flex flex-col items-center gap-1">
+                      <h2 className="text-2xl md:text-3xl font-display font-semibold text-stone-800 tracking-wide">
+                        {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
+                      </h2>
+                      <div className="flex items-center gap-2 text-[0.7rem] md:text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">
+                        <button
+                          onClick={handleJumpToToday}
+                          className="rounded-full px-2 py-1 hover:bg-amber-50 transition-colors"
+                        >
+                          Today
+                        </button>
+                        <span className="h-3 w-px bg-stone-300"></span>
+                        <button
+                          onClick={handleClearRange}
+                          className="rounded-full px-2 py-1 hover:bg-amber-50 transition-colors"
+                        >
+                          Clear Range
+                        </button>
+                      </div>
+                    </div>
                     <button
                       onClick={() => setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))}
                       className="p-2 rounded-full hover:bg-amber-50 transition-colors"
@@ -90,6 +135,7 @@ export default function Home() {
                     currentMonth={currentMonth}
                     selectedRange={selectedRange}
                     onRangeChange={setSelectedRange}
+                    tasks={tasks}
                   />
                 </div>
               </div>
@@ -100,6 +146,9 @@ export default function Home() {
                   notes={notes}
                   onNotesChange={setNotes}
                   selectedRange={selectedRange}
+                  tasks={tasks}
+                  onTasksChange={setTasks}
+                  currentMonth={currentMonth}
                 />
               </div>
             </div>

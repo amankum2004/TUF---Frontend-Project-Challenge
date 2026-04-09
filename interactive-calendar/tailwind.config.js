@@ -14,6 +14,8 @@ module.exports = {
         foreground: 'hsl(var(--foreground))',
       },
       fontFamily: {
+        display: ['"Iowan Old Style"', 'Georgia', 'serif'],
+        body: ['"Avenir Next"', '"Trebuchet MS"', '"Segoe UI"', 'sans-serif'],
         serif: ['Georgia', 'Times New Roman', 'serif'],
       },
     },

@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import {
+  format,
   startOfMonth,
   endOfMonth,
   startOfWeek,
@@ -11,8 +12,10 @@ import {
   isSameMonth,
   isSameDay,
   isWithinInterval,
+  parseISO,
 } from 'date-fns';
 import CalendarGrid from './CalendarGrid';
+import type { PlannerTask } from '@/lib/planner';
 
 interface CalendarProps {
   currentMonth: Date;
@@ -21,9 +24,17 @@ interface CalendarProps {
     end: Date | null;
   };
   onRangeChange: (range: { start: Date | null; end: Date | null }) => void;
+  tasks: PlannerTask[];
 }
 
-export default function Calendar({ currentMonth, selectedRange, onRangeChange }: CalendarProps) {
+const holidayLabels: Record<string, string> = {
+  '01-01': 'New Year',
+  '02-14': 'Valentine',
+  '10-31': 'Halloween',
+  '12-25': 'Holiday',
+};
+
+export default function Calendar({ currentMonth, selectedRange, onRangeChange, tasks }: CalendarProps) {
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
 
   // Generate calendar days including previous/next month days
@@ -80,6 +91,68 @@ export default function Calendar({ currentMonth, selectedRange, onRangeChange }:
     return isSameDay(date, new Date());
   };
 
+  const getHolidayLabel = (date: Date): string | null => {
+    const key = format(date, 'MM-dd');
+    return holidayLabels[key] ?? null;
+  };
+
+  const getTaskIndicators = (date: Date) => {
+    const dateKey = format(date, 'yyyy-MM-dd');
+    const monthKey = format(date, 'yyyy-MM');
+    let markerCount = 0;
+    let hasReminder = false;
+    let hasRangeSpan = false;
+    let hasWeekSpan = false;
+
+    tasks.forEach(task => {
+      if (task.completed) return;
+      if (task.scope === 'day' && task.date === dateKey) {
+        markerCount += 1;
+        if (task.reminderEnabled) hasReminder = true;
+        return;
+      }
+
+      if (task.scope === 'week' && task.weekStart) {
+        const weekStartDate = parseISO(task.weekStart);
+        const weekEndDate = endOfWeek(weekStartDate, { weekStartsOn: 0 });
+        if (isWithinInterval(date, { start: weekStartDate, end: weekEndDate })) {
+          hasWeekSpan = true;
+          if (isSameDay(date, weekStartDate)) {
+            markerCount += 1;
+            if (task.reminderEnabled) hasReminder = true;
+          }
+        }
+        return;
+      }
+
+      if (task.scope === 'month' && task.month === monthKey && date.getDate() === 1) {
+        markerCount += 1;
+        if (task.reminderEnabled) hasReminder = true;
+        return;
+      }
+
+      if (task.scope === 'range' && task.rangeStart && task.rangeEnd) {
+        const rangeStartDate = parseISO(task.rangeStart);
+        const rangeEndDate = parseISO(task.rangeEnd);
+        if (isWithinInterval(date, { start: rangeStartDate, end: rangeEndDate })) {
+          hasRangeSpan = true;
+          if (isSameDay(date, rangeStartDate) || isSameDay(date, rangeEndDate)) {
+            markerCount += 1;
+            if (task.reminderEnabled) hasReminder = true;
+          }
+        }
+      }
+    });
+
+    const spanTone: 'range' | 'week' | null = hasRangeSpan ? 'range' : hasWeekSpan ? 'week' : null;
+
+    return {
+      markerCount,
+      hasReminder,
+      spanTone,
+    };
+  };
+
   return (
     <div className="w-full overflow-x-auto">
       <div className="min-w-[280px]">
@@ -107,6 +180,8 @@ export default function Calendar({ currentMonth, selectedRange, onRangeChange }:
               isRangeEnd={isRangeEnd(day)}
               isInHoverRange={isInHoverRange(day)}
               isToday={isToday(day)}
+              holidayLabel={getHolidayLabel(day)}
+              taskIndicators={getTaskIndicators(day)}
               onClick={() => handleDateClick(day)}
               onMouseEnter={() => setHoveredDate(day)}
               onMouseLeave={() => setHoveredDate(null)}
