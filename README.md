@@ -44,3 +44,4 @@ A beautifully crafted, fully responsive interactive calendar component built wit
    ```bash
    git clone https://github.com/yourusername/interactive-calendar.git
    cd interactive-calendar
+   npm run dev
