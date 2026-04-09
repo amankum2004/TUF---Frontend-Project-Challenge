@@ -11,18 +11,18 @@ interface HeroImageProps {
 
 // Seasonal image mapping based on month
 const seasonalImages: Record<number, { url: string; theme: string }> = {
-  0: { url: 'https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?auto=format&fit=crop&w=1600&q=80', theme: 'Winter Snow' },
-  1: { url: 'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1600&q=80', theme: 'Cozy Winter' },
-  2: { url: 'https://images.unsplash.com/photo-1456615074700-1dc12aa7364d?auto=format&fit=crop&w=1600&q=80', theme: 'Spring Blossoms' },
-  3: { url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80', theme: 'Spring Garden' },
-  4: { url: 'https://images.unsplash.com/photo-1465101162946-4377e57745c3?auto=format&fit=crop&w=1600&q=80', theme: 'May Flowers' },
-  5: { url: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80', theme: 'Summer Sun' },
-  6: { url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80', theme: 'Beach Days' },
-  7: { url: 'https://images.unsplash.com/photo-1500534314209-a26db0f5d9b4?auto=format&fit=crop&w=1600&q=80', theme: 'Summer Harvest' },
-  8: { url: 'https://images.unsplash.com/photo-1476041800959-2f6bb412c8ce?auto=format&fit=crop&w=1600&q=80', theme: 'Autumn Colors' },
-  9: { url: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1600&q=80', theme: 'October Glow' },
-  10: { url: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=80', theme: 'November Fog' },
-  11: { url: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=80', theme: 'Holiday Magic' },
+  0: { url: '/images/hero/jan-winter-snow.jpg', theme: 'Winter Snow' },
+  1: { url: '/images/hero/feb-cozy-winter.jpg', theme: 'Cozy Winter' },
+  2: { url: '/images/hero/mar-spring-blossoms.jpg', theme: 'Spring Blossoms' },
+  3: { url: '/images/hero/apr-spring-garden.jpg', theme: 'Spring Garden' },
+  4: { url: '/images/hero/may-flowers.jpg', theme: 'May Flowers' },
+  5: { url: '/images/hero/jun-summer-sun.jpg', theme: 'Summer Sun' },
+  6: { url: '/images/hero/jul-beach-days.jpg', theme: 'Beach Days' },
+  7: { url: '/images/hero/aug-summer-harvest.jpg', theme: 'Summer Harvest' },
+  8: { url: '/images/hero/sep-autumn-colors.jpg', theme: 'Autumn Colors' },
+  9: { url: '/images/hero/oct-october-glow.jpg', theme: 'October Glow' },
+  10: { url: '/images/hero/nov-fog.jpg', theme: 'November Fog' },
+  11: { url: '/images/hero/dec-holiday-magic.jpg', theme: 'Holiday Magic' },
 };
 
 export default function HeroImage({ currentMonth }: HeroImageProps) {
@@ -50,7 +50,6 @@ export default function HeroImage({ currentMonth }: HeroImageProps) {
           alt={`${format(currentMonth, 'MMMM')} - ${theme}`}
           fill
           sizes="(min-width: 1024px) 640px, 100vw"
-          unoptimized
           className={`object-cover transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoadingComplete={() => setImageLoaded(true)}
         />
