@@ -1,26 +1,30 @@
 # Interactive Wall Calendar
 
-A beautifully crafted, fully responsive interactive calendar component built with Next.js, React, and TypeScript. This component emulates a physical wall calendar with a seasonal hero image, intuitive date range selection, and integrated notes functionality.
+A tactile, wall-style calendar UI built with Next.js, React, and TypeScript. It pairs a seasonal hero image with a date range selector, a notes area, and a full planner for day, week, month, and range tasks.
 
 ## ✨ Features
 
-### Core Requirements
-- **Wall Calendar Aesthetic**: Physical calendar look with seasonal hero images that change monthly
-- **Date Range Selector**: Click to select start date, click again to complete range with visual highlighting
-- **Integrated Notes Section**: 
-  - Monthly memo for general reminders (auto-saved to localStorage)
-  - Range-specific notes attached to selected date ranges
-- **Fully Responsive Design**: 
-  - Desktop: Side-by-side layout (calendar + notes panel)
-  - Mobile: Vertically stacked layout with touch-optimized controls
+### Core Experience
+- **Wall Calendar Aesthetic**: Paper textures, binder rings, tape accents, and a dedicated hero image pane.
+- **Date Range Selector**: Click to pick a start and end date, with hover previews and distinct start/end styling.
+- **Integrated Notes**:
+  - Monthly memo saved in localStorage.
+  - Range-specific notes attached to the selected date span.
+- **Planner Mode**:
+  - Add tasks for **Day**, **Week**, **Month**, or **Range**.
+  - Optional reminders with time.
+  - Persisted locally in localStorage.
+- **Calendar Indicators**:
+  - Task dots, week/range span bars, reminder bell icons.
+  - Lightweight holiday labels (New Year, Valentine, Halloween, Holiday).
+- **Fully Responsive**:
+  - Desktop: side-by-side layout.
+  - Mobile: stacked layout with touch-friendly controls.
 
-### Creative Enhancements
-- **Seasonal Hero Images**: Dynamic Unsplash images matching each month's theme
-- **Hover Range Preview**: Visual feedback while selecting date ranges
-- **Persistent Storage**: Notes automatically saved in browser localStorage
-- **Today Highlight**: Current date visually distinguished
-- **Smooth Animations**: Transitions for hover states and selection changes
-- **Accessibility**: Keyboard navigation support, proper ARIA labels
+### Creative Touches
+- **Offline Hero Images**: All seasonal images are stored locally in `public/images/hero`.
+- **Subtle Motion**: Page-flip animation on month changes and a gentle sway on the hero image.
+- **Quick Actions**: Jump to Today and Clear Range controls.
 
 ## 🚀 Live Demo
 
@@ -28,13 +32,12 @@ A beautifully crafted, fully responsive interactive calendar component built wit
 
 ## 📦 Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
-- **UI Library**: React 18
+- **Framework**: Next.js 16 (App Router)
+- **UI Library**: React 19
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Date Utilities**: date-fns
-- **State Management**: React Hooks (useState, useContext)
-- **Persistence**: localStorage API
+- **Persistence**: localStorage
 
 ## 🛠️ Installation & Setup
 
@@ -42,4 +45,21 @@ A beautifully crafted, fully responsive interactive calendar component built wit
    ```bash
    git clone https://github.com/yourusername/interactive-calendar.git
    cd interactive-calendar
+   npm install
    npm run dev
+   ```
+
+2. **Production build**
+   ```bash
+   npm run build
+   npm run start
+   ```
+
+## 📂 Notes on Assets
+
+- Seasonal images live in `public/images/hero`.
+- To swap imagery, replace the files and update the mapping in `components/HeroImage.tsx`.
+
+## 🧠 Data Persistence
+
+Notes and planner items are stored locally in the browser via localStorage. No backend is required.
